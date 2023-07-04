@@ -14,6 +14,10 @@ return new class extends Migration
         Schema::create('comments', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('content');
+            $table->uuid('user_id');
+            $table->uuid('post_id');
+            $table->uuid('parent_id')->nullable();
+            $table->uuid('like_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('CASCADE');
             $table->foreign('post_id')->references('id')->on('posts')->onDelete('CASCADE');
             $table->foreign('parent_id')->references('id')->on('comments')->onDelete('CASCADE');
