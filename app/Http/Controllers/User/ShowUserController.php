@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Traits\HttpResponses;
+use Illuminate\Http\Response;
 
 class ShowUserController extends Controller
 {
@@ -16,9 +17,9 @@ class ShowUserController extends Controller
         $user = User::with('posts')->find($id);
 
         if (!$user) {
-            return $this->error('Usuário não encontrado', 404);
+            return $this->error('Usuário não encontrado', Response::HTTP_NOT_FOUND);
         }
 
-        return $this->response('Usuário encontrado com sucesso', 200, new UserResource($user));
+        return $this->response('Usuário encontrado com sucesso', Response::HTTP_OK, new UserResource($user));
     }
 }

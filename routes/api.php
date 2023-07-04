@@ -4,6 +4,7 @@ use App\Http\Controllers\User\{
     StoreUserController,
     IndexUserController,
     ShowUserController,
+    UpdateUserController,
 };
 use Illuminate\Support\Facades\Route;
 
@@ -23,4 +24,5 @@ Route::prefix('users')->group(function () {
     Route::post('/', StoreUserController::class);
     Route::get('/', IndexUserController::class);
     Route::get('/{id}', ShowUserController::class);
+    Route::patch('/{id}', UpdateUserController::class);
 });
