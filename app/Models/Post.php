@@ -5,10 +5,33 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Post extends Model
 {
     use HasFactory, HasUuids;
+
+    protected $fillable = [
+        'title',
+        'slug',
+        'content',
+        'image',
+        'user_id',
+    ];
+
+    public function setSlugAttribute($value)
+    {
+        $slug = Str::slug($value);
+        $baseSlug = $slug;
+
+        // Verifica se já existe um post com o mesmo slug
+        $i = 1;
+        while ($this->where('slug', $slug)->exists()) {
+            $slug = $baseSlug . '-' . $i++;
+        }
+
+        $this->attributes['slug'] = $slug;
+    }
 
     public function user()
     {
