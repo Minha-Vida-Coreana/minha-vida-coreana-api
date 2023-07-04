@@ -28,7 +28,7 @@ class UserResource extends JsonResource
                 'updated_at'    => Carbon::parse($post->updated_at)->diffForHumans(),
             ];
         });
-        $posts = $posts->isEmpty() ? 'Este usuário não possui posts ainda' : $posts;
+        $posts = $posts->isEmpty() ? null : $posts;
 
         return [
             'id'            => $this->id,
