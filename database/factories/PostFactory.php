@@ -25,7 +25,7 @@ class PostFactory extends Factory
 
         return [
             'user_id'       => User::pluck('id')->random(),
-            'title'         => $this->faker->sentence(),
+            'title'         => $title,
             'slug'          => Str::slug($title),
             'content'       => $this->faker->paragraph(),
             'image'         => $faker->imageUrl(640, 480, true),
