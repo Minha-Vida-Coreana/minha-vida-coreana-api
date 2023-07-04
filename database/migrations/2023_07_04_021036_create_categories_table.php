@@ -11,10 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('likes', function (Blueprint $table) {
+        Schema::create('categories', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('CASCADE');
-            $table->foreign('comment_id')->references('id')->on('comments')->onDelete('CASCADE');
+            $table->string('name');
         });
     }
 
@@ -23,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('likes');
+        Schema::dropIfExists('categories');
     }
 };
