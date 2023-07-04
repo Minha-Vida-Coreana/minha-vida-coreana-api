@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\User\{
     DeleteUserController,
     StoreUserController,
@@ -19,6 +20,13 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+
+// Auth
+Route::prefix('auth')->group(function () {
+    Route::post('/login', [AuthController::class, 'login']);
+    Route::post('/logout', [AuthController::class, 'logout'])
+        ->middleware('auth:sanctum');
+});
 
 // Users
 Route::prefix('users')->group(function () {
