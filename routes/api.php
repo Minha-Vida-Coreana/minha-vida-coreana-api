@@ -11,6 +11,7 @@ use App\Http\Controllers\Post\{
 use App\Http\Controllers\User\{
     StoreUserController,
     IndexUserController,
+    ProfileUserController,
     ShowUserController,
     UpdateUserController,
     DeleteUserController,
@@ -31,14 +32,14 @@ use Illuminate\Support\Facades\Route;
 // Auth
 Route::prefix('auth')->group(function () {
     Route::post('/login', [AuthController::class, 'login']);
-    Route::post('/logout', [AuthController::class, 'logout'])
-        ->middleware('auth:sanctum');
+    Route::post('/register', StoreUserController::class);
+    Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 });
 
 // Users
-Route::prefix('users')->group(function () {
-    Route::post('/', StoreUserController::class);
+Route::prefix('users')->middleware('auth:sanctum')->group(function () {
     Route::get('/', IndexUserController::class);
+    Route::get('/me', ProfileUserController::class);
     Route::get('/{id}', ShowUserController::class);
     Route::patch('/{id}', UpdateUserController::class);
     Route::delete('/{id}', DeleteUserController::class);
@@ -52,3 +53,12 @@ Route::prefix('posts')->middleware('auth:sanctum')->group(function () {
     Route::patch('/{id}', UpdatePostController::class);
     Route::delete('/{id}', DeletePostController::class);
 });
+
+// Comments
+// Route::prefix('comments')->middleware('auth:sanctum')->group(function () {
+//     Route::post('/', StoreCommentController::class);
+//     // Route::get('/', IndexCommentController::class);
+//     // Route::get('/{id}', ShowCommentController::class);
+//     // Route::patch('/{id}', UpdateCommentController::class);
+//     // Route::delete('/{id}', DeleteCommentController::class);
+// });
