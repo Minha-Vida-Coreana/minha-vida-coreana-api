@@ -17,6 +17,27 @@ class PostResource extends JsonResource
     {
         $created_at = Carbon::parse($this->created_at)->diffForHumans();
         $updated_at = Carbon::parse($this->updated_at)->diffForHumans();
+
+        $comments = $this->comments->map(function ($comment) {
+            return [
+                'id'        => $comment->id,
+                'content'   => $comment->content,
+                'user'      => $comment->user->name,
+                'user_id'   => $comment->user_id,
+                'created_at' => Carbon::parse($comment->created_at)->diffForHumans(),
+                'updated_at' => Carbon::parse($comment->updated_at)->diffForHumans(),
+            ];
+        });
+        $comments = $comments->isEmpty() ? null : $comments;
+
+        $categories = $this->categories->map(function ($category) {
+            return [
+                'id'        => $category->id,
+                'name'      => $category->name,
+            ];
+        });
+        $categories = $categories->isEmpty() ? null : $categories;
+
         return [
             'id'            => $this->id,
             'title'         => $this->title,
@@ -24,6 +45,8 @@ class PostResource extends JsonResource
             'content'       => $this->content,
             'user'          => $this->user->name,
             'user_id'       => $this->user_id,
+            'comments'      => $comments,
+            'categories'    => $categories,
             'created_at'    => $created_at,
             'updated_at'    => $updated_at,
         ];

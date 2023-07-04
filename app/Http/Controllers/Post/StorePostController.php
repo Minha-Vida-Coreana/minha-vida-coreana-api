@@ -32,6 +32,8 @@ class StorePostController extends Controller
         $post->user_id = Auth::id();
         $post->save();
 
+        $post->categories()->attach($request->category_id);
+
         return $this->response('Post criado com sucesso', Response::HTTP_CREATED, new PostResource($post));
     }
 }

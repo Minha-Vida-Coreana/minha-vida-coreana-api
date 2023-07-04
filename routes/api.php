@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Post\{
+    IndexPostController,
     StorePostController,
 };
 use App\Http\Controllers\User\{
@@ -41,9 +42,9 @@ Route::prefix('users')->group(function () {
 });
 
 // Posts
-Route::prefix('posts')->group(function () {
-    Route::post('/', StorePostController::class)->middleware('auth:sanctum');
-    // Route::get('/', IndexPostController::class);
+Route::prefix('posts')->middleware('auth:sanctum')->group(function () {
+    Route::post('/', StorePostController::class);
+    Route::get('/', IndexPostController::class);
     // Route::get('/{id}', ShowPostController::class);
     // Route::patch('/{id}', UpdatePostController::class);
     // Route::delete('/{id}', DeletePostController::class);
