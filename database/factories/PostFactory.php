@@ -5,6 +5,7 @@ namespace Database\Factories;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Bluemmb\Faker\PicsumPhotosProvider;
+use Carbon\Carbon;
 use Illuminate\Support\Str;
 
 /**
@@ -29,6 +30,7 @@ class PostFactory extends Factory
             'slug'          => Str::slug($title),
             'content'       => $this->faker->paragraph(),
             'image'         => $faker->imageUrl(640, 480, true),
+            'created_at'    => Carbon::instance($this->faker->dateTimeBetween('-1 months', 'now')),
         ];
     }
 }

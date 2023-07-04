@@ -22,11 +22,11 @@ class StoreUserController extends Controller
         $validator = Validator::make($request->all(), $storeUserRequest->rules());
 
         if ($validator->fails()) {
-            return $this->error('Validation error', Response::HTTP_UNPROCESSABLE_ENTITY, $validator->errors());
+            return $this->error('Erro de validação', Response::HTTP_UNPROCESSABLE_ENTITY, $validator->errors());
         }
 
         $user = User::create($validator->validated());
 
-        return $this->response('User created successfully', Response::HTTP_CREATED, new UserResource($user));
+        return $this->response('Usuário criado com sucesso', Response::HTTP_CREATED, new UserResource($user));
     }
 }

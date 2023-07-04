@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\User\IndexUserController;
 use App\Http\Controllers\User\StoreUserController;
 use App\Http\Controllers\User\UserController;
 use Illuminate\Support\Facades\Route;
@@ -18,4 +19,5 @@ use Illuminate\Support\Facades\Route;
 // Users
 Route::prefix('users')->group(function () {
     Route::post('/', StoreUserController::class);
+    Route::get('/', IndexUserController::class);
 });
