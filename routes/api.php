@@ -6,6 +6,7 @@ use App\Http\Controllers\Post\{
     IndexPostController,
     ShowPostController,
     UpdatePostController,
+    DeletePostController,
 };
 use App\Http\Controllers\User\{
     StoreUserController,
@@ -49,5 +50,5 @@ Route::prefix('posts')->middleware('auth:sanctum')->group(function () {
     Route::get('/', IndexPostController::class);
     Route::get('/{id}', ShowPostController::class);
     Route::patch('/{id}', UpdatePostController::class);
-    // Route::delete('/{id}', DeletePostController::class);
+    Route::delete('/{id}', DeletePostController::class);
 });
