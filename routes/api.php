@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\User\{
+    DeleteUserController,
     StoreUserController,
     IndexUserController,
     ShowUserController,
@@ -25,4 +26,5 @@ Route::prefix('users')->group(function () {
     Route::get('/', IndexUserController::class);
     Route::get('/{id}', ShowUserController::class);
     Route::patch('/{id}', UpdateUserController::class);
+    Route::delete('/{id}', DeleteUserController::class);
 });
