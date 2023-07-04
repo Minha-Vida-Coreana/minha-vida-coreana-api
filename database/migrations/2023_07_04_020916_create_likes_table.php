@@ -17,6 +17,7 @@ return new class extends Migration
             $table->uuid('comment_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('CASCADE');
             $table->foreign('comment_id')->references('id')->on('comments')->onDelete('CASCADE');
+            $table->timestamps();
         });
     }
 

@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use Bluemmb\Faker\PicsumPhotosProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -17,12 +18,15 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
+        $faker = \Faker\Factory::create('pt_BR');
+        $faker->addProvider(new PicsumPhotosProvider($faker));
         return [
-            'name' => fake()->name(),
-            'email' => fake()->unique()->safeEmail(),
-            'email_verified_at' => now(),
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-            'remember_token' => Str::random(10),
+            'email'         => $faker->unique()->safeEmail(),
+            'password'      => bcrypt('password'),
+            'username'      => $faker->unique()->userName(),
+            'name'          => $faker->name(),
+            'avatar'        => $faker->imageUrl(640, 480, true),
+            'is_admin'      => rand(0, 1),
         ];
     }
 

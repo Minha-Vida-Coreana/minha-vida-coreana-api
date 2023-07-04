@@ -17,11 +17,9 @@ return new class extends Migration
             $table->uuid('user_id');
             $table->uuid('post_id');
             $table->uuid('parent_id')->nullable();
-            $table->uuid('like_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('CASCADE');
             $table->foreign('post_id')->references('id')->on('posts')->onDelete('CASCADE');
             $table->foreign('parent_id')->references('id')->on('comments')->onDelete('CASCADE');
-            $table->foreign('like_id')->references('id')->on('likes')->onDelete('CASCADE');
             $table->timestamps();
         });
     }
@@ -31,6 +29,13 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('comments');
+        if (Schema::hasTable('comments')) {
+            Schema::table('comments', function (Blueprint $table) {
+                $table->dropForeign(['user_id']);
+                $table->dropForeign(['post_id']);
+                $table->dropForeign(['parent_id']);
+            });
+            Schema::dropIfExists('comments');
+        }
     }
 };
