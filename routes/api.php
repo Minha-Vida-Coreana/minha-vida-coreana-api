@@ -2,15 +2,16 @@
 
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Post\{
-    IndexPostController,
     StorePostController,
+    IndexPostController,
+    ShowPostController,
 };
 use App\Http\Controllers\User\{
-    DeleteUserController,
     StoreUserController,
     IndexUserController,
     ShowUserController,
     UpdateUserController,
+    DeleteUserController,
 };
 use Illuminate\Support\Facades\Route;
 
@@ -45,7 +46,7 @@ Route::prefix('users')->group(function () {
 Route::prefix('posts')->middleware('auth:sanctum')->group(function () {
     Route::post('/', StorePostController::class);
     Route::get('/', IndexPostController::class);
-    // Route::get('/{id}', ShowPostController::class);
+    Route::get('/{id}', ShowPostController::class);
     // Route::patch('/{id}', UpdatePostController::class);
     // Route::delete('/{id}', DeletePostController::class);
 });
