@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Traits\HttpResponses;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class UpdateUserController extends Controller
@@ -28,6 +29,10 @@ class UpdateUserController extends Controller
 
         if (!$user) {
             return $this->error('Usuário não encontrado', Response::HTTP_NOT_FOUND);
+        }
+
+        if ($user->id !== Auth::id()) {
+            return $this->error('Você não tem permissão para atualizar este usuário', Response::HTTP_FORBIDDEN);
         }
 
         $user->update($validator->validated());

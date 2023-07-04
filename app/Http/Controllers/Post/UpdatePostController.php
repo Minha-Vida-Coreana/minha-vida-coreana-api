@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Post;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Post\UpdatePostRequest;
+use App\Http\Resources\PostResource;
 use App\Models\Post;
 use App\Traits\HttpResponses;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class UpdatePostController extends Controller
@@ -30,7 +32,11 @@ class UpdatePostController extends Controller
             return $this->error('Post não encontrado', Response::HTTP_NOT_FOUND);
         }
 
+        if ($post->user_id !== Auth::id()) {
+            return $this->error('Você não tem permissão para atualizar este post', Response::HTTP_FORBIDDEN);
+        }
+
         $post->update($validator->validated());
-        return $this->response('Post atualizado com sucesso', Response::HTTP_OK, $post);
+        return $this->response('Post atualizado com sucesso', Response::HTTP_OK, new PostResource($post));
     }
 }
