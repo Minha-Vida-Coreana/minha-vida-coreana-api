@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Traits\HttpResponses;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 
 class DeleteUserController extends Controller
 {
@@ -17,6 +18,10 @@ class DeleteUserController extends Controller
 
         if (!$user) {
             return $this->error('Usuário não encontrado', Response::HTTP_NOT_FOUND);
+        }
+
+        if ($user->id !== Auth::id()) {
+            return $this->error('Você não tem permissão para deletar este usuário', Response::HTTP_FORBIDDEN);
         }
 
         $user->delete();

@@ -7,6 +7,7 @@ use App\Models\Post;
 use App\Traits\HttpResponses;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 
 class DeletePostController extends Controller
 {
@@ -18,6 +19,10 @@ class DeletePostController extends Controller
 
         if (!$post) {
             return $this->error('Post não encontrado', Response::HTTP_NOT_FOUND);
+        }
+
+        if ($post->user_id !== Auth::id()) {
+            return $this->error('Você não tem permissão para deletar este post', Response::HTTP_FORBIDDEN);
         }
 
         $post->delete();

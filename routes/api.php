@@ -6,6 +6,7 @@ use App\Http\Controllers\Comment\{
     IndexCommentController,
     ShowCommentController,
     UpdateCommentController,
+    DeleteCommentController,
 };
 use App\Http\Controllers\Post\{
     StorePostController,
@@ -66,5 +67,5 @@ Route::prefix('comments')->middleware('auth:sanctum')->group(function () {
     Route::get('/', IndexCommentController::class);
     Route::get('/{id}', ShowCommentController::class);
     Route::patch('/{id}', UpdateCommentController::class);
-    // Route::delete('/{id}', DeleteCommentController::class);
+    Route::delete('/{id}', DeleteCommentController::class);
 });
