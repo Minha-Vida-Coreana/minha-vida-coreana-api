@@ -15,7 +15,7 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->string('title');
             $table->string('slug');
-            $table->string('content');
+            $table->text('content');
             $table->string('image');
             $table->uuid('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('CASCADE');
