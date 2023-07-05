@@ -10,6 +10,7 @@ use App\Traits\HttpResponses;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
@@ -31,6 +32,16 @@ class StorePostController extends Controller
         $post->setSlugAttribute($post->title);
         $post->user_id = Auth::id();
         $post->save();
+
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $fileName = $file->getClientOriginalName();
+            $filePath = 'posts/' . $post->id . '/' . $fileName;
+            $disk = env('APP_ENV') === 'production' ? 's3' : 'local';
+            dd($disk);
+            Storage::disk($disk)->put($filePath, file_get_contents($file), 'public');
+            $post->update(['image' => $filePath]);
+        }
 
         $post->categories()->attach($request->category_id);
 

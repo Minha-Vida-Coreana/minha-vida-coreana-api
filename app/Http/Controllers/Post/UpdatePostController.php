@@ -10,6 +10,7 @@ use App\Traits\HttpResponses;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class UpdatePostController extends Controller
@@ -37,6 +38,16 @@ class UpdatePostController extends Controller
         }
 
         $post->update($validator->validated());
+
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $fileName = $file->getClientOriginalName();
+            $filePath = 'posts/' . $post->id . '/' . $fileName;
+            $disk = env('APP_ENV') === 'production' ? 's3' : 'local';
+            Storage::disk($disk)->put($filePath, file_get_contents($file), 'public');
+            $post->update(['image' => $filePath]);
+        }
+
         return $this->response('Post atualizado com sucesso', Response::HTTP_OK, new PostResource($post));
     }
 }

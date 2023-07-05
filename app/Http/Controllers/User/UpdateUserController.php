@@ -9,6 +9,7 @@ use App\Traits\HttpResponses;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class UpdateUserController extends Controller
@@ -36,6 +37,15 @@ class UpdateUserController extends Controller
         }
 
         $user->update($validator->validated());
+
+        if ($request->hasFile('avatar')) {
+            $file = $request->file('avatar');
+            $fileName = $file->getClientOriginalName();
+            $filePath = 'avatars/' . $user->id . '/' . $fileName;
+            $disk = env('APP_ENV') === 'production' ? 's3' : 'local';
+            Storage::disk($disk)->put($filePath, file_get_contents($file), 'public');
+            $user->update(['avatar' => $filePath]);
+        }
 
         return $this->response('Usuário atualizado com sucesso', Response::HTTP_OK, $user);
     }
