@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('comments', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('content');
+            $table->text('content');
             $table->uuid('user_id');
             $table->uuid('post_id');
             $table->uuid('parent_id')->nullable();
