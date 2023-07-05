@@ -34,9 +34,9 @@ class AuthController extends Controller
     }
 
     // Accept = application/json
-    public function logout(Request $request)
+    public function logout()
     {
-        $request->user()->currentAccessToken()->delete();
+        auth('sanctum')->user()->tokens()->delete();
 
         return $this->response('Logout realizado com sucesso', Response::HTTP_OK);
     }
