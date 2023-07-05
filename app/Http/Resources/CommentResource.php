@@ -19,14 +19,16 @@ class CommentResource extends JsonResource
         $updated_at = Carbon::parse($this->updated_at)->diffForHumans();
 
         return [
-            'id'            => $this->id,
-            'content'       => $this->content,
-            'post_id'       => $this->post_id,
-            'post'          => $this->post->title,
-            'user_id'       => $this->user_id,
-            'user'          => $this->user->name,
-            'created_at'    => $created_at,
-            'updated_at'    => $updated_at,
+            'id'                => $this->id,
+            'content'           => $this->content,
+            'post_id'           => $this->post_id,
+            'post'              => $this->post->title,
+            'user_id'           => $this->user_id,
+            'user'              => $this->user->name,
+            'likes'             => $this->likes->count(),
+            'liked_by_users'    => $this->likes->pluck('user.name'),
+            'created_at'        => $created_at,
+            'updated_at'        => $updated_at,
         ];
     }
 }

@@ -8,6 +8,10 @@ use App\Http\Controllers\Comment\{
     UpdateCommentController,
     DeleteCommentController,
 };
+use App\Http\Controllers\Like\{
+    DeleteLikeController,
+    StoreLikeController,
+};
 use App\Http\Controllers\Post\{
     StorePostController,
     IndexPostController,
@@ -68,4 +72,10 @@ Route::prefix('comments')->middleware('auth:sanctum')->group(function () {
     Route::get('/{id}', ShowCommentController::class);
     Route::patch('/{id}', UpdateCommentController::class);
     Route::delete('/{id}', DeleteCommentController::class);
+});
+
+// Likes
+Route::prefix('likes')->middleware('auth:sanctum')->group(function () {
+    Route::post('/', StoreLikeController::class);
+    Route::delete('/{id}', DeleteLikeController::class);
 });

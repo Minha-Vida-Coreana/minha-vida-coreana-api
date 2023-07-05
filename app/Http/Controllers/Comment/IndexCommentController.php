@@ -15,7 +15,7 @@ class IndexCommentController extends Controller
 
     public function __invoke()
     {
-        $comments = Comment::with(['user', 'post'])->get();
+        $comments = Comment::with(['user', 'post', 'likes'])->get();
 
         return $this->response('Comentários listados com sucesso', Response::HTTP_OK, CommentResource::collection($comments));
     }

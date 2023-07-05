@@ -39,16 +39,18 @@ class PostResource extends JsonResource
         $categories = $categories->isEmpty() ? null : $categories;
 
         return [
-            'id'            => $this->id,
-            'title'         => $this->title,
-            'slug'          => $this->slug,
-            'content'       => $this->content,
-            'user'          => $this->user->name,
-            'user_id'       => $this->user_id,
-            'comments'      => $comments,
-            'categories'    => $categories,
-            'created_at'    => $created_at,
-            'updated_at'    => $updated_at,
+            'id'                => $this->id,
+            'title'             => $this->title,
+            'slug'              => $this->slug,
+            'content'           => $this->content,
+            'user'              => $this->user->name,
+            'user_id'           => $this->user_id,
+            'comments_count'    => $this->comments->count(),
+            'comments'          => $comments,
+            'categories_count'  => $this->categories->count(),
+            'categories'        => $categories,
+            'created_at'        => $created_at,
+            'updated_at'        => $updated_at,
         ];
     }
 }

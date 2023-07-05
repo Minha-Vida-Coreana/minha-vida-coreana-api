@@ -15,7 +15,7 @@ class ShowCommentController extends Controller
 
     public function __invoke(string $id)
     {
-        $comment = Comment::with(['user', 'post'])->find($id);
+        $comment = Comment::with(['user', 'post', 'likes'])->find($id);
 
         if (!$comment) {
             return $this->error('Comentário não encontrado', Response::HTTP_NOT_FOUND);
