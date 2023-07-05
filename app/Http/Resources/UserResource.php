@@ -15,8 +15,10 @@ class UserResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        $created_at = Carbon::parse($this->created_at)->format('Y-m-d H:i:s');
-        $updated_at = Carbon::parse($this->updated_at)->format('Y-m-d H:i:s');
+        $created_at = Carbon::parse($this->created_at)->format('d/m/Y H:i:s');
+        $updated_at = Carbon::parse($this->updated_at)->format('d/m/Y H:i:s');
+        $time_since_created = Carbon::parse($this->created_at)->diffForHumans();
+        $time_since_updated = Carbon::parse($this->updated_at)->diffForHumans();
 
         $posts = $this->posts->map(function ($post) {
             return [
@@ -31,14 +33,16 @@ class UserResource extends JsonResource
         $posts = $posts->isEmpty() ? null : $posts;
 
         return [
-            'id'            => $this->id,
-            'email'         => $this->email,
-            'username'      => $this->username,
-            'name'          => $this->name,
-            'avatar'        => $this->avatar,
-            'posts'         => $posts,
-            'created_at'    => $created_at,
-            'updated_at'    => $updated_at,
+            'id'                    => $this->id,
+            'email'                 => $this->email,
+            'username'              => $this->username,
+            'name'                  => $this->name,
+            'avatar'                => $this->avatar,
+            'posts'                 => $posts,
+            'time_since_created'    => $time_since_created,
+            'time_since_updated'    => $time_since_updated,
+            'created_at'            => $created_at,
+            'updated_at'            => $updated_at,
         ];
     }
 }

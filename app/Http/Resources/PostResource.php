@@ -15,8 +15,10 @@ class PostResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        $created_at = Carbon::parse($this->created_at)->diffForHumans();
-        $updated_at = Carbon::parse($this->updated_at)->diffForHumans();
+        $created_at = Carbon::parse($this->created_at)->format('d/m/Y H:i:s');
+        $updated_at = Carbon::parse($this->updated_at)->format('d/m/Y H:i:s');
+        $time_since_created = Carbon::parse($this->created_at)->diffForHumans();
+        $time_since_updated = Carbon::parse($this->updated_at)->diffForHumans();
 
         $comments = $this->comments->map(function ($comment) {
             return [
@@ -39,18 +41,20 @@ class PostResource extends JsonResource
         $categories = $categories->isEmpty() ? null : $categories;
 
         return [
-            'id'                => $this->id,
-            'title'             => $this->title,
-            'slug'              => $this->slug,
-            'content'           => $this->content,
-            'user'              => $this->user->name,
-            'user_id'           => $this->user_id,
-            'comments_count'    => $this->comments->count(),
-            'comments'          => $comments,
-            'categories_count'  => $this->categories->count(),
-            'categories'        => $categories,
-            'created_at'        => $created_at,
-            'updated_at'        => $updated_at,
+            'id'                    => $this->id,
+            'title'                 => $this->title,
+            'slug'                  => $this->slug,
+            'content'               => $this->content,
+            'user'                  => $this->user->name,
+            'user_id'               => $this->user_id,
+            'comments_count'        => $this->comments->count(),
+            'comments'              => $comments,
+            'categories_count'      => $this->categories->count(),
+            'categories'            => $categories,
+            'time_since_created'    => $time_since_created,
+            'time_since_updated'    => $time_since_updated,
+            'created_at'            => $created_at,
+            'updated_at'            => $updated_at,
         ];
     }
 }
