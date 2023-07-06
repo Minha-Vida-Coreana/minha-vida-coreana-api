@@ -28,7 +28,12 @@ class StorePostController extends Controller
             return $this->error('Erro de validação', Response::HTTP_BAD_REQUEST, $validator->errors());
         }
 
-        $post = new Post($validator->validated());
+        $validatedData = $validator->validated();
+
+        $categoryIds = $validatedData['category_id'];
+        unset($validatedData['category_id']);
+
+        $post = new Post($validatedData);
         $post->setSlugAttribute($post->title);
         $post->user_id = Auth::id();
         $post->save();
@@ -38,12 +43,11 @@ class StorePostController extends Controller
             $fileName = $file->getClientOriginalName();
             $filePath = 'posts/' . $post->id . '/' . $fileName;
             $disk = env('APP_ENV') === 'production' ? 's3' : 'local';
-            dd($disk);
             Storage::disk($disk)->put($filePath, file_get_contents($file), 'public');
             $post->update(['image' => $filePath]);
         }
 
-        $post->categories()->attach($request->category_id);
+        $post->categories()->attach($categoryIds);
 
         return $this->response('Post criado com sucesso', Response::HTTP_CREATED, new PostResource($post));
     }

@@ -44,7 +44,7 @@ return [
     'dimensions'           => 'O campo :attribute tem dimensões de imagem inválidas.',
     'distinct'             => 'O campo :attribute campo tem um valor duplicado.',
     'doesnt_start_with'    => 'O :attribute não pode começar com um dos seguintes: :values.',
-    'email'                => 'O campo :attribute deve ser um endereço de e-mail válido.',
+    'email'                => ':attribute inválido.',
     'ends_with'            => 'O campo :attribute deve terminar com um dos seguintes: :values',
     'enum'                 => 'O :attribute selecionado é inválido.',
     'exists'               => 'O campo :attribute selecionado é inválido.',

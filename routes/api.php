@@ -1,6 +1,10 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Category\{
+    IndexCategoryController,
+    StoreCategoryController
+};
 use App\Http\Controllers\Comment\{
     StoreCommentController,
     IndexCommentController,
@@ -78,4 +82,11 @@ Route::prefix('comments')->middleware('auth:sanctum')->group(function () {
 Route::prefix('likes')->middleware('auth:sanctum')->group(function () {
     Route::post('/', StoreLikeController::class);
     Route::delete('/{id}', DeleteLikeController::class);
+});
+
+// Categories
+Route::prefix('categories')->middleware('auth:sanctum')->group(function () {
+    Route::post('/', StoreCategoryController::class);
+    Route::get('/', IndexCategoryController::class);
+    // Route::get('/{id}', ShowCategoryController::class);
 });
