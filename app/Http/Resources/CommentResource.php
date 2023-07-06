@@ -20,9 +20,21 @@ class CommentResource extends JsonResource
         $time_since_created = Carbon::parse($this->created_at)->diffForHumans();
         $time_since_updated = Carbon::parse($this->updated_at)->diffForHumans();
 
+        $replies = $this->replies->map(function ($reply) {
+            return [
+                'id'        => $reply->id,
+                'content'   => $reply->content,
+                'post_id'   => $reply->post_id,
+                'post'      => $reply->post->title,
+                'user_id'   => $reply->user_id,
+                'user'      => $reply->user->name,
+            ];
+        });
+
         return [
             'id'                    => $this->id,
             'content'               => $this->content,
+            'replies'               => $replies,
             'post_id'               => $this->post_id,
             'post'                  => $this->post->title,
             'user_id'               => $this->user_id,

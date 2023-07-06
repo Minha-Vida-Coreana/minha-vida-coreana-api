@@ -29,6 +29,17 @@ class StoreCommentController extends Controller
         $validatedData = $validator->validated();
         $validatedData['user_id'] = Auth::id();
 
+        if (isset($validatedData['parent_id'])) {
+            $parentComment = Comment::find($validatedData['parent_id']);
+            if (!$parentComment) {
+                return $this->error('Comentário pai não encontrado', Response::HTTP_NOT_FOUND);
+            }
+
+            if ($parentComment->parent_id !== null) {
+                return $this->error('Não é possível responder a uma resposta', Response::HTTP_BAD_REQUEST);
+            }
+        }
+
         $comment = Comment::create($validatedData);
 
         return $this->response('Comentário criado com sucesso', Response::HTTP_CREATED, new CommentResource($comment));
