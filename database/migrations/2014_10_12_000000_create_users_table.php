@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('avatar')->nullable();
             $table->boolean('is_admin')->default(false);
+            $table->rememberToken();
             $table->timestamps();
         });
     }

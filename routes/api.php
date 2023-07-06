@@ -2,8 +2,8 @@
 
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Category\{
+    StoreCategoryController,
     IndexCategoryController,
-    StoreCategoryController
 };
 use App\Http\Controllers\Comment\{
     StoreCommentController,
@@ -13,9 +13,10 @@ use App\Http\Controllers\Comment\{
     DeleteCommentController,
 };
 use App\Http\Controllers\Like\{
-    DeleteLikeController,
     StoreLikeController,
+    DeleteLikeController,
 };
+use App\Http\Controllers\Auth\PasswordResetController;
 use App\Http\Controllers\Post\{
     StorePostController,
     IndexPostController,
