@@ -32,7 +32,7 @@ class UpdateCommentController extends Controller
             return $this->error('Comentário não encontrado', Response::HTTP_NOT_FOUND);
         }
 
-        if ($comment->user_id !== Auth::id()) {
+        if (Auth::check() && ($comment->user_id !== Auth::id())) {
             return $this->error('Você não tem permissão para atualizar este comentário', Response::HTTP_FORBIDDEN);
         }
 

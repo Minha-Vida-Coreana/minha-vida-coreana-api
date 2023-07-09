@@ -62,19 +62,29 @@ Route::prefix('users')->middleware('auth:sanctum')->group(function () {
 });
 
 // Posts
-Route::prefix('posts')->middleware('auth:sanctum')->group(function () {
-    Route::post('/', StorePostController::class);
+// Rotas Públicas
+Route::prefix('posts')->group(function () {
     Route::get('/', IndexPostController::class);
     Route::get('/{id}', ShowPostController::class);
+});
+
+// Rotas Privadas
+Route::prefix('posts')->middleware('auth:sanctum')->group(function () {
+    Route::post('/', StorePostController::class);
     Route::patch('/{id}', UpdatePostController::class);
     Route::delete('/{id}', DeletePostController::class);
 });
 
 // Comments
-Route::prefix('comments')->middleware('auth:sanctum')->group(function () {
-    Route::post('/', StoreCommentController::class);
+// Rotas Públicas
+Route::prefix('comments')->group(function () {
     Route::get('/', IndexCommentController::class);
     Route::get('/{id}', ShowCommentController::class);
+});
+
+// Rotas Privadas
+Route::prefix('comments')->middleware('auth:sanctum')->group(function () {
+    Route::post('/', StoreCommentController::class);
     Route::patch('/{id}', UpdateCommentController::class);
     Route::delete('/{id}', DeleteCommentController::class);
 });

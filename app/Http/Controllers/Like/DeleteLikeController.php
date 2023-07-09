@@ -22,7 +22,7 @@ class DeleteLikeController extends Controller
             return $this->error('Like não encontrado', Response::HTTP_NOT_FOUND);
         }
 
-        if ($like->user_id !== Auth::id()) {
+        if (Auth::check() && ($like->user_id !== Auth::id())) {
             return $this->error('Você não tem permissão para remover este like', Response::HTTP_FORBIDDEN);
         }
 

@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Traits\HttpResponses;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class StoreCategoryController extends Controller
@@ -22,6 +23,10 @@ class StoreCategoryController extends Controller
 
         if ($validator->fails()) {
             return $this->error('Erro de validação', Response::HTTP_BAD_REQUEST, $validator->errors());
+        }
+
+        if (Auth::check() && !Auth::user()->is_admmin) {
+            return $this->error('Você não tem permissão para criar uma categoria', Response::HTTP_FORBIDDEN);
         }
 
         $category = Category::create([

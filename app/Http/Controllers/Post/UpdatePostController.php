@@ -33,7 +33,7 @@ class UpdatePostController extends Controller
             return $this->error('Post não encontrado', Response::HTTP_NOT_FOUND);
         }
 
-        if ($post->user_id !== Auth::id()) {
+        if (Auth::check() && ($post->user_id !== Auth::id())) {
             return $this->error('Você não tem permissão para atualizar este post', Response::HTTP_FORBIDDEN);
         }
 

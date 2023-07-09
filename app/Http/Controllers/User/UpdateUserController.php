@@ -32,7 +32,7 @@ class UpdateUserController extends Controller
             return $this->error('Usuário não encontrado', Response::HTTP_NOT_FOUND);
         }
 
-        if ($user->id !== Auth::id()) {
+        if (Auth::check() && ($user->user_id !== Auth::id())) {
             return $this->error('Você não tem permissão para atualizar este usuário', Response::HTTP_FORBIDDEN);
         }
 

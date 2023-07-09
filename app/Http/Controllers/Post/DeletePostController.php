@@ -21,7 +21,7 @@ class DeletePostController extends Controller
             return $this->error('Post não encontrado', Response::HTTP_NOT_FOUND);
         }
 
-        if ($post->user_id !== Auth::id() && !Auth::user()->is_admin) {
+        if (Auth::check() && ($post->user_id !== Auth::id() && !Auth::user()->is_admin)) {
             return $this->error('Você não tem permissão para deletar este post', Response::HTTP_FORBIDDEN);
         }
 

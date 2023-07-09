@@ -20,7 +20,7 @@ class DeleteCommentController extends Controller
             return $this->error('Comentário não encontrado', Response::HTTP_NOT_FOUND);
         }
 
-        if ($comment->user_id !== Auth::id() && !Auth::user()->is_admin) {
+        if (Auth::check() && ($comment->user_id !== Auth::id() && !Auth::user()->is_admin)) {
             return $this->error('Você não tem permissão para deletar este comentário', Response::HTTP_FORBIDDEN);
         }
 

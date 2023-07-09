@@ -20,7 +20,7 @@ class DeleteUserController extends Controller
             return $this->error('Usuário não encontrado', Response::HTTP_NOT_FOUND);
         }
 
-        if ($user->id !== Auth::id() && !Auth::user()->is_admin) {
+        if (Auth::check() && ($user->user_id !== Auth::id() && !Auth::user()->is_admin)) {
             return $this->error('Você não tem permissão para deletar este usuário', Response::HTTP_FORBIDDEN);
         }
 
