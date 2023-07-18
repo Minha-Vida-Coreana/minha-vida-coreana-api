@@ -28,6 +28,7 @@ class PostFactory extends Factory
             'user_id'       => User::pluck('id')->random(),
             'title'         => $title,
             'slug'          => Str::slug($title),
+            'view_count'    => $this->faker->numberBetween(0, 15),
             'content'       => $this->faker->paragraph(),
             'image'         => $faker->imageUrl(640, 480, true),
             'created_at'    => Carbon::instance($this->faker->dateTimeBetween('-1 months', 'now')),

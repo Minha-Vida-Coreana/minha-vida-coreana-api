@@ -15,6 +15,7 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->string('title');
             $table->string('slug');
+            $table->integer('view_count')->default(0);
             $table->text('content');
             $table->string('image');
             $table->uuid('user_id');
