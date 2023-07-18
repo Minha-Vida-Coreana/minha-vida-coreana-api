@@ -32,6 +32,8 @@ use App\Http\Controllers\User\{
     UpdateUserController,
     DeleteUserController,
 };
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -52,8 +54,24 @@ Route::prefix('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 });
 
+// Email Verification
+Route::prefix('email')->group(function () {
+    Route::get('/verify', function () {
+        return view('auth.verify-email');
+    })->middleware('auth:sanctum')->name('verification.notice');
+    Route::get('/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+        $request->fulfill();
+    })->middleware(['auth:sanctum', 'signed'])->name('verification.verify');
+    Route::post('/verification-notification', function (Request $request) {
+        $request->user()->sendEmailVerificationNotification();
+    })->middleware(['auth:sanctum', 'throttle:6,1'])->name('verification.send');
+});
+
+// Password Reset
+Route::post('/forgot-password', [PasswordResetController::class, 'forgotPasswordPost'])->middleware('guest')->name('forgot.password.post');
+
 // Users
-Route::prefix('users')->middleware('auth:sanctum')->group(function () {
+Route::prefix('users')->middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/', IndexUserController::class);
     Route::get('/me', ProfileUserController::class);
     Route::get('/{id}', ShowUserController::class);

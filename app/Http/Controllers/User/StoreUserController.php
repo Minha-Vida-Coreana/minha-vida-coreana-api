@@ -7,6 +7,7 @@ use App\Http\Requests\User\StoreUserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Traits\HttpResponses;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
@@ -30,6 +31,8 @@ class StoreUserController extends Controller
         if (!$user) {
             return $this->error('Erro ao criar usuário', Response::HTTP_INTERNAL_SERVER_ERROR);
         }
+
+        event(new Registered($user));
 
         // if ($request->hasFile('avatar')) {
         //     $file = $request->file('avatar');
