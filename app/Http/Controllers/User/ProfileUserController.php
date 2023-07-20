@@ -3,14 +3,13 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
-use App\Traits\HttpResponses;
+use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 
 class ProfileUserController extends Controller
 {
-    public function __invoke()
+    public function __invoke(Request $request)
     {
-        return response()->json(auth()->user()->with('posts')->first());
+        return UserResource::make($request->user());
     }
 }
